@@ -1,4 +1,5 @@
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
@@ -11,17 +12,19 @@ public class PasswordEncryptionService {
     //TODO YOU NEED TO COMPLETE THIS METHOD
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
         //Create strings for the password and the attempted password
+        String encryptedPassword = "Letterkenny2025"; 
+        String attemptedPassword = "dog";
 
-		//get the salt
+        byte[] salt = generateSalt();
 
 		//encrypt the password
-
+        securePassword = getEncryptedPassword(encryptedPassword, salt); 
 
 		//validate the password
-
+        
 
         //Print out the password, the attempted password, the salt and whether they match or not. 
-		
+		System.out.println(attemptedPassword);
 	
     }
 
@@ -29,10 +32,17 @@ public class PasswordEncryptionService {
     //TODO YOU NEED TO COMPLETE THIS METHOD
     public static byte[] generateSalt() throws NoSuchAlgorithmException {
         // VERY important to use SecureRandom instead of just Random
+        
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
 
         // Generate a 8 byte (64 bit) salt as recommended by RSA PKCS5
-        // ...
-        //see notes
+        // Create an array for salt
+        byte[] salt = new byte[16];
+
+        // get a random salt
+        sr.nextBytes(salt);
+
+        // return salt
         return salt;
     }
 
