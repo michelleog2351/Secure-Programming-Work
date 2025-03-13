@@ -12,19 +12,22 @@ public class PasswordEncryptionService {
     //TODO YOU NEED TO COMPLETE THIS METHOD
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException {
         //Create strings for the password and the attempted password
-        String encryptedPassword = "Letterkenny2025"; 
+        String originalPassword = "Letterkenny2025"; 
         String attemptedPassword = "dog";
 
         byte[] salt = generateSalt();
 
 		//encrypt the password
-        securePassword = getEncryptedPassword(encryptedPassword, salt); 
+        byte[] encryptedPassword = getEncryptedPassword(originalPassword, salt); 
 
 		//validate the password
-        
+        boolean isMatch = authenticate(attemptedPassword, encryptedPassword, salt);
 
         //Print out the password, the attempted password, the salt and whether they match or not. 
-		System.out.println(attemptedPassword);
+		System.out.println("Original Password: " + originalPassword);
+        System.out.println("Attempted Password: " + attemptedPassword);
+        System.out.println("Salt: " + Arrays.toString(salt));
+        System.out.println("Passwords match: " + isMatch);
 	
     }
 
