@@ -1,0 +1,145 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+ 
+public class MyATUException extends Exception {
+
+    public MyATUException() {
+        super();
+    }
+
+    public MyATUException(String msg) {
+        super(msg);
+    }
+
+//Part 1  - Put a try/catch block around the code to handle the InputMismatchException exception.
+    public static void part1(){
+        Scanner scan = new Scanner(System.in);
+          
+        int num = 0;     
+
+        try {
+            do {
+                System.out.println("Enter a number between 1 and 10");    
+                num = scan.nextInt();
+    
+                if (num < 1 || num > 10){
+                    System.out.println("Illegal value, " +num+ " entered. Please try again.");
+                }
+                      
+            }while (num < 1 || num > 10);
+                       
+                System.out.println("Value correctly entered! Thank you.");      
+        }catch(InputMismatchException ime) {
+            System.out.println("EXCEPTION CAUGHT by this program: Enter numeric value." + ime.getMessage());
+            System.out.println("Enter whole numbers only, with no spaces or other characters");
+            scan.next();// clear the scanner buffer
+        }
+        scan.close();
+    }                 
+
+//Part 2  - Handle the Arithmetic Exception.
+    public static void part2(){
+        //System.out.println(3/0);
+
+        try {
+            System.out.println(3/0);
+      //} catch (Exception e){
+        //  System.out.println("Exception caught by this program " + e.getMessage()));
+        } catch (ArithmeticException aex){
+            System.out.println("EXCEPTION CAUGHT by this program: Enter numeric value." + aex.getMessage());
+            //System.out.println(3/0);
+        }
+    }   
+
+//Part 3  - Catch multiple Exceptions.  
+    public static void part3(){
+        // Enter the following values and see what exception is caught:     0, 4, character, <no value>
+        try {
+            String value = JOptionPane.showInputDialog(null, "Enter value:");
+            // Non-numerical value will result an NumberFormatException
+            int divisor = Integer.parseInt(value);
+            // If the divisor is 0, it will result in ArithmetricException
+            System.out.println(3/divisor);
+        } catch (NumberFormatException nfe){
+            System.out.println("EXCEPTION CAUGHT  by this program: Enter numeric value.");
+        } catch (ArithmeticException exc) {
+            System.out.println("EXCEPTION CAUGHT  by this program: Divisor was 0.");
+        }
+        System.out.println("After exception.");
+    }
+
+//Part 4 - Using the built in methods of the Exceptions.  
+    public static void part4(){
+        try {
+            throw new Exception("*****My Homemade Exception Message That I made up!"); //change the text to create your own message
+        } catch (Exception e) {
+            System.err.println("EXCEPTION CAUGHT");
+            System.err.println("1. e . getMessage():" + e.getMessage());
+            System.err.println("2. e . getLocalizedMessage():"+ e.getLocalizedMessage());
+            System.err.println("3. e . toString():" + e);
+            System.err.println("4. printStackTrace():");
+            e.printStackTrace();
+        }   
+    }
+
+
+//Part 5 - Catch multiple Exceptions.  
+    public static void fakeMethod() throws MyATUException {
+        System.out.println("Throwing MyATUException from the fakeMethod() method");
+            throw new MyATUException ();
+    }
+            
+    public static void anotherFakeMethod() throws MyATUException {
+        System.out.println("Throwing MyException from anotherFakeMethod()");
+            throw new MyATUException ("Originated in : anotherFakeMethod()");
+    }
+        
+    public static void part5(){
+
+        try {
+            fakeMethod();
+        } catch (MyATUException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            anotherFakeMethod();
+        } catch (MyATUException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+//Part 6  - Finallly
+    public static void part6(){
+        int count = 0;
+        while (true) {
+            try {
+                // Post-increment is zero first time:
+                if (count++ == 0) 
+                    throw new MyATUException();
+                    System.out.println("No exception thrown ");
+            } catch (MyATUException e) {
+                System.out.println("MyATUException : Exception has happened...");
+            } finally {   // finally is always called
+                System.out.println("In finally clause  -ALWAYS CALED!!");
+                if (count == 2){
+                    break; // out of "while"
+                }
+            }
+        }
+    }
+
+
+    public static void main(String[] args) {
+       // part1();
+       // part2();
+       // part3();
+       // part4();
+       // part5();
+        part6();
+    }
+
+}
